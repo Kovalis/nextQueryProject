@@ -160,6 +160,12 @@ a.secondary {
   background-color: var(--black);
   color: #fff;
   padding-block: 20px;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
 .navbar {
@@ -172,11 +178,13 @@ a.secondary {
   background-color: var(--black);
   color: #fff;
   padding: 20px;
+  margin-left: -20px;
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1440px;
   margin-inline: auto;
+  padding-inline: 20px;
 }
 
 .nav-list {

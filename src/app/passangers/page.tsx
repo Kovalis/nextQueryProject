@@ -22,7 +22,7 @@ const PassangersPage = () => {
             <LoadMore />
           </>
         ) : (
-          'Что-то пошло не так'
+          <Loader />
         )}
       </div>
     </div>

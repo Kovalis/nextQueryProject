@@ -115,10 +115,12 @@ const Catalog: FC = () => {
             {isLoading ? (
               <Loader />
             ) : (
-              data.map((product: IProduct, index) => <CardProduct key={index} product={product} />)
+              data?.map((product: IProduct, index) => <CardProduct key={index} product={product} />)
             )}
           </div>
-        ) :  "Что-то пошло не так"}
+        ) : (
+          <Loader />
+        )}
       </div>
     </div>
   )
