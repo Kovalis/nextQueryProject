@@ -1,20 +1,20 @@
 'use client'
-import styles from '@/app/page.module.scss'
-import Sidebar from '../../widgets/sidebar'
+import st from '@/app/page.module.scss'
+import Sidebar from '../../widgets/Sidebar/sidebar'
 import { Passangers } from '../../components/passangers'
 import { LoadMore } from '../../components/load-more-passangers'
-import { usePassangers } from '../../hooks/usePassangerList'
-import Loader from '../../shared/loader'
+import { usePassangers } from '../../hooks/queries/usePassangerList'
+import Loader from '../../shared/Loader'
 
 const PassangersPage = () => {
   const { data, isLoading } = usePassangers(1)
   return (
-    <div className={styles['grid-sidebar']}>
+    <div className={st.gridSidebar}>
       <Sidebar />
-      <div className={styles.page}>
+      <div className={st.page}>
         {data ? (
           <>
-            <div className={styles['page__inner']}>
+            <div className={st.pageInner}>
               <h1>Catalog Passangers</h1>
               {isLoading ? <Loader /> : <Passangers passangers={data} />}
             </div>

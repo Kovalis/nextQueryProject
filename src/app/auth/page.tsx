@@ -1,6 +1,6 @@
 'use client'
-import Button from '@/shared/button'
-import { FC, useEffect } from 'react'
+import ButtonBase from '@/shared/ButtonBase'
+import { useEffect } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import CheckForm from '../../components/checkForm'
 
@@ -10,8 +10,8 @@ export interface IForm {
   isImportant: boolean
 }
 
-const Auth: FC = () => {
-  const { register, handleSubmit, formState, reset, watch, getValue, setValue, control } = useForm<IForm>({
+const Auth = () => {
+  const { register, handleSubmit, formState, reset, watch, setValue, control } = useForm<IForm>({
     mode: 'onChange',
   })
 
@@ -67,7 +67,7 @@ const Auth: FC = () => {
 
         <CheckForm control={control} />
 
-        <Button type={'submit'} text={'Отправить'} />
+        <ButtonBase type={'submit'}>Отправить</ButtonBase>
       </form>
 
       {/* <button onClick={() => reset()}>Reset form</button> */}

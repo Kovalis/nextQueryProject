@@ -1,4 +1,4 @@
-import Button from '@/shared/button'
+import ButtonBase from '@/shared/ButtonBase'
 import { Control, Controller } from 'react-hook-form'
 import { IForm } from '../app/auth/page'
 
@@ -7,19 +7,20 @@ interface Props {
   //   register: UseFormRegister<IForm>
 }
 
-const CheckForm = ({ control }) => {
+const CheckForm = ({ control }: Props) => {
   return (
     <Controller
       control={control}
       name="isImportant"
       render={({ field }) => (
-        <Button
+        <ButtonBase
           onClick={(e) => {
             e.preventDefault()
             field.onChange(!field.value)
           }}
-          text={field.value ? 'Важное сообщение' : 'НЕ ВАЖНОЕ СООБЩЕНИЕ'}
-        />
+        >
+          {field.value ? 'Важное сообщение' : 'НЕ ВАЖНОЕ СООБЩЕНИЕ'}
+        </ButtonBase>
       )}
     />
   )

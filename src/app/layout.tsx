@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.scss'
-import styles from './page.module.scss'
+import st from './page.module.scss'
 import Image from 'next/image'
-import Header from '../widgets/header/header'
+import Header from '../widgets/Header'
 import ReactQueryProvider from '@/app/providers/ReactQueryProvider'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,17 +19,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body className={inter.className}>
         <ReactQueryProvider>
-          <main className={styles.main}>
-            <div className={styles.container}>
+          <main className={st.main}>
+            <div className={st.container}>
               <Header />
               {children}
             </div>
           </main>
-          <footer className={styles.footer}>
-            <div className={styles.container}>
+          <footer className={st.footer}>
+            <div className={st.container}>
               <a
                 href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
                 target="_blank"

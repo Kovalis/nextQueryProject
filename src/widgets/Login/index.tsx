@@ -1,6 +1,6 @@
 'use client'
 
-import { useLogin } from '@/hooks/useLogin'
+import { useLogin } from '@/hooks/queries/useLogin'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -14,7 +14,7 @@ const Login = () => {
   }
 
   return (
-    <Link href="#" onClick={toggleLogin}>
+    <Link href="/#" onClick={toggleLogin}>
       {loginText ? 'Logout' : 'Login'}
     </Link>
   )

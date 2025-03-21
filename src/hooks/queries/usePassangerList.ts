@@ -1,12 +1,13 @@
-import { getLogin } from '@/api/api-login'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import { getPassangers } from '@/api/api-passangers'
+import { QUERY_KEYS } from '@/const/queryKeys'
 
-export function useLogin() {
+export function usePassangers(page: number = 0) {
   const { data, isLoading, isSuccess, isError, refetch } = useQuery({
-    queryKey: ['login'],
-    queryFn: getLogin,
-    // select: (data) => data,
+    queryKey: [QUERY_KEYS.passangers, page],
+    queryFn: () => getPassangers(page),
+    select: (data) => data?.data,
   })
 
   useEffect(() => {

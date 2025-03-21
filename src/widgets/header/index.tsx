@@ -1,16 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import styles from '@/app/page.module.scss'
+import st from '@/app/page.module.scss'
 import { menuList } from './menuList'
-import Login from '../login/login'
+import Login from '../Login'
 
 const Header = () => {
-  return (
-    <header className={styles.header}>
-      <div className={styles.container}>
-        <div className={styles['header__inner']}>
-          <ul className={styles['nav-list']}>
+  return menuList ? (
+    <header className={st.header}>
+      <div className={st.container}>
+        <div className={st.headerInner}>
+          <ul className={st.navList}>
             {menuList?.map((item) => (
               <li key={item.name}>
                 <Link href={item.path}>{item.name}</Link>
@@ -21,6 +21,6 @@ const Header = () => {
         </div>
       </div>
     </header>
-  )
+  ) : null
 }
 export default Header

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { IPassanger } from '../app/types/passangers.interface'
-import Loader from '../shared/loader'
+import Loader from '../shared/Loader'
 import { useInView } from 'react-intersection-observer'
 import { Passangers } from './passangers'
 import { getPassangers } from '@/api/api-passangers'

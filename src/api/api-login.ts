@@ -6,8 +6,7 @@ import axios from 'axios'
 
 export async function getLogin() {
   try {
-    console.log('ss')
-    const res = await axios.post('https://jsonplaceholder.typicode.com/posts')
+    const res = await axios.post(`${process.env.API_URL}/posts`)
     return res.data
   } catch (e) {
     console.error(e)

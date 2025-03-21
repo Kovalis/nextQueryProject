@@ -1,20 +1,20 @@
-import { IMenuList } from '@/widgets/header/header.interface'
+import { IMenuList } from '@/widgets/Header/header.interface'
 
 export const menuList: IMenuList[] = [
   {
     name: 'Home',
-    path: '/',
+    path: `${process.env.HOME}`,
   },
   {
     name: 'Catalog',
-    path: '/catalog',
+    path: `${process.env.URL_CATALOG_PRODUCTS_CLOVES}`,
   },
   {
     name: 'Infinity Scroll',
-    path: '/passangers',
+    path: `${process.env.URL_INFINITY_SCROLL}`,
   },
   {
     name: 'Auth',
-    path: '/auth',
+    path: `${process.env.URL_AUTH}`,
   },
 ]

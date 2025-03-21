@@ -1,122 +1,90 @@
 'use client'
 // import Image from 'next/image'
-import styles from '@/app/page.module.scss'
-import { EventHandler, FC, useEffect, useState } from 'react'
+import st from '@/app/page.module.scss'
+import { EventHandler, useCallback, useEffect, useState } from 'react'
 import { IProduct } from '../types/catalog.interface'
-import Loader from '../../shared/loader'
-import Sidebar from '../../widgets/sidebar'
-import CardProduct from '../../widgets/card-product/card-product'
+import Loader from '../../shared/Loader'
+import Sidebar from '../../widgets/Sidebar/sidebar'
+import CardProduct from '../../widgets/CardProduct'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
-import { useProducts } from '../../hooks/useProducts'
-import axios from 'axios'
-import Button from '@/shared/button'
-// import { getCarts, handlerSort } from '../others-js'
+import { useProductsQuery } from '../../hooks/queries/useProducts'
+import ButtonBase from '../../shared/ButtonBase'
+import { ICartsDate } from '../types/cartsDate.interface'
+import { getCarts, handlerSort } from './scripts'
+import { QUERY_KEYS } from '@/const/queryKeys'
+import { useMutationProducts } from '@/hooks/queries/useMutationProducts'
 
-const Catalog: FC = () => {
-  interface IProductCart {
-    productId: number
-    quantity: number
-  }
+export const revalidate = 10
 
-  interface ICarts {
-    id: number
-    userId: number
-    date: string
-    product: IProductCart[]
-    __v: number
-  }
-
-  // const [sortProducts, setSortProduct] = useState<IProduct[] | null>(null)
-  const [carts, setCarts] = useState<ICarts[] | null>(null)
+const Catalog = () => {
+  const [sortProducts, setSortProduct] = useState<IProduct[] | null>(null)
+  const [carts, setCarts] = useState<ICartsDate[] | null>(null)
   const [loader, setLoader] = useState(false)
 
-  const sortByRating = (a, b): number => {
-    if (a.rating.rate > b.rating.rate) {
-      return -1
-    } else if (a.rating.rate === b.rating.rate) {
-      return 0
-    } else {
-      return 1
-    }
-  }
-
-  const sortByPrice = (a, b): number => {
-    if (a.price > b.price) {
-      return 1
-    } else if (a.price === b.price) {
-      return 0
-    } else {
-      return -1
-    }
-  }
-
-  const { data, isLoading, refetch } = useProducts()
+  //обернуть в useCallback
+  const { data, isLoading, refetch } = useProductsQuery()
 
   const refetchProducts = () => {
     refetch()
   }
 
+  const handlerGetCarts = useCallback(() => getCarts(setLoader, setCarts), [])
+
   const queryClient = useQueryClient()
 
-  const { mutate, isPending } = useMutation({
-    mutationKey: ['products'],
-    mutationFn: async (newPost: Omit<IProduct, 'id'>) =>
-      axios.post('https://jsonplaceholder.typicode.com/posts', newPost),
-  })
+  const handleClick = useCallback(() => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.products] }), [])
+
+  // const { mutate, isPending } = useMutation({
+  //   mutationKey: [QUERY_KEYS.products],
+  //   mutationFn: async (newPost: Omit<IProduct, 'id'>) => axios.post(`${process.env.API_URL}/posts`, newPost),
+  // })
+
+  const { newPost, mutate, isPending } = useMutationProducts()
 
   const handlerMutate = () => {
-    mutate({
-      category: 'shoes',
-      description: 'any product',
-      image: 'anything img',
-      price: 3233,
-      rating: {
-        count: 2,
-        rate: 5,
-      },
-      title: 'some title',
-    })
+    mutate(newPost)
   }
 
   return (
-    <div className={styles['grid-sidebar']}>
+    <div className={st.gridSidebar}>
       <Sidebar />
-      <div className={styles.page}>
-        <div className={styles['catalog-top']}>
+
+      <div className={st.page}>
+        <div className={st.catalogTop}>
           <h1>Catalog</h1>
-          {/* <select name="" id="" onChange={handlerSort}>
+          <select name="" id="" onChange={() => handlerSort}>
             <option value="1">По популярности</option>
             <option value="2">Сначала дешевые</option>
-          </select> */}
+          </select>
         </div>
-        <div>
-          {/* <button onClick={getCarts}>Отобразить даты</button> */}
 
-          <Button onClick={handlerMutate} text={'Записать данные(useMutation)'} />
-          {isPending ? <Loader /> : ''}
+        <div>
+          <ButtonBase onClick={handlerGetCarts}>Отобразить даты</ButtonBase>
+
+          <ButtonBase onClick={handlerMutate}>Записать данные(useMutation)</ButtonBase>
+
+          {isPending && <Loader />}
+
           <div>
-            <Button onClick={refetchProducts} text={'Обновить товары(refetch)'} />
-            <Button
-              onClick={() => queryClient.invalidateQueries({ queryKey: ['products'] })}
-              text={'Обновить товары(invalidateQueries)'}
-            />
+            <ButtonBase onClick={refetchProducts}>Обновить товары(refetch)</ButtonBase>
+            <ButtonBase onClick={handleClick}>Обновить товары(invalidateQueries)</ButtonBase>
           </div>
-          <div className={styles.mb20}>
-            {loader ?? <Loader />}
+
+          <div className={st.mb20}>
+            {loader && <Loader />}
             {!carts
               ? null
-              : carts.map((cart: ICarts) => {
+              : carts.map((cart: ICartsDate) => {
                   return <div key={cart.id}>{cart.date}</div>
                 })}
           </div>
         </div>
-        {data ? (
-          <div className={styles['catalog-list']}>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              data?.map((product: IProduct, index) => <CardProduct key={index} product={product} />)
-            )}
+
+        {data?.length ? (
+          <div className={st.catalogList}>
+            {data?.map((product) => (
+              <CardProduct key={product?.id} product={product} />
+            ))}
           </div>
         ) : (
           <Loader />

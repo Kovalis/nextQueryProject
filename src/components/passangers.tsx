@@ -1,6 +1,6 @@
 'use client'
 import { IPassanger } from '../app/types/passangers.interface'
-import styles from '@/app/page.module.scss'
+import st from '@/app/page.module.scss'
 
 interface IPassangersList {
   passangers: IPassanger[]
@@ -8,11 +8,11 @@ interface IPassangersList {
 
 export function Passangers({ passangers }: IPassangersList) {
   return (
-    <div className={styles['passanger__list']}>
+    <div className={st.passangerList}>
       {passangers ? (
         passangers.map((passanger: IPassanger) => {
           return (
-            <div key={passanger.id} className={styles.passanger}>
+            <div key={passanger.id} className={st.passanger}>
               <div>{passanger.name}</div>
               <div>{passanger.id}</div>
               <div>{passanger.email}</div>
