@@ -35,7 +35,8 @@ export const handlerSort = (
   sortProducts: IProduct[],
   setSortProduct: (value: IProduct[]) => void
 ): void => {
-  console.log(typeSort.target.value, 'value')
+  if (!sortProducts) return
+
   let sortedProducts
 
   if (typeSort.target.value === '1') {

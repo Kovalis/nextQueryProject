@@ -1,0 +1,61 @@
+.modalTemplate {
+    display: none;
+    flex-direction: column;
+    width: 400px;
+    max-width: 100%;
+    min-height: 400px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #000;
+    color: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    z-index: 950;
+
+    &.modalTemplateActive {
+        display: flex;
+    }
+
+}
+
+.modalTemplateForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modalTemplateBg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    &.modalTemplateBgActive {
+        display: block;
+    }
+}
+
+.modalCloseBtn {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    z-index: 5;
+    top: 10px;
+    right: 10px;
+    outline: none;
+    background: none;
+    color: #fff;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.modalTemplateInput {
+    display: block;
+    width: 100%;
+    padding: 10px;
+}

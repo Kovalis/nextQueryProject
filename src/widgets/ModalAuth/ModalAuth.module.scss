@@ -1,0 +1,33 @@
+.ModalAuth {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px;
+    max-width: 100%;
+    min-height: 400px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #000;
+    color: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    z-index: 950;
+
+    &.ModalAuthActive {
+        display: flex;
+    }
+}
+
+.ModalAuthBg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    &.ModalAuthBgActive {
+        display: block;
+    }
+}

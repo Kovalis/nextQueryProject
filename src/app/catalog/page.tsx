@@ -12,7 +12,8 @@ import ButtonBase from '../../shared/ButtonBase'
 import { ICartsDate } from '../types/cartsDate.interface'
 import { getCarts, handlerSort } from './scripts'
 import { QUERY_KEYS } from '@/const/queryKeys'
-import { useMutationProducts } from '@/hooks/queries/useMutationProducts'
+import { ModalAddProduct } from '@/widgets/ModalAddProduct'
+import { ModalTemplate } from '@/widgets/ModalTemplate'
 
 export const revalidate = 10
 
@@ -20,9 +21,16 @@ const Catalog = () => {
   const [sortProducts, setSortProduct] = useState<IProduct[] | null>(null)
   const [carts, setCarts] = useState<ICartsDate[] | null>(null)
   const [loader, setLoader] = useState(false)
+  const [visibleModal, setVisibleModal] = useState(false)
 
   //обернуть в useCallback
   const { data, isLoading, refetch } = useProductsQuery()
+
+  useEffect(() => {
+    if (data) {
+      setSortProduct(data)
+    }
+  }, [data])
 
   const refetchProducts = () => {
     refetch()
@@ -34,16 +42,15 @@ const Catalog = () => {
 
   const handleClick = useCallback(() => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.products] }), [])
 
-  // const { mutate, isPending } = useMutation({
-  //   mutationKey: [QUERY_KEYS.products],
-  //   mutationFn: async (newPost: Omit<IProduct, 'id'>) => axios.post(`${process.env.API_URL}/posts`, newPost),
-  // })
-
-  const { newPost, mutate, isPending } = useMutationProducts()
-
-  const handlerMutate = () => {
-    mutate(newPost)
+  interface INewProduct {
+    title?: string
+    description?: string
+    price?: number
   }
+
+  const openModal = useCallback(() => {
+    setVisibleModal(true)
+  }, [])
 
   return (
     <div className={st.gridSidebar}>
@@ -52,7 +59,15 @@ const Catalog = () => {
       <div className={st.page}>
         <div className={st.catalogTop}>
           <h1>Catalog</h1>
-          <select name="" id="" onChange={() => handlerSort}>
+          <select
+            name="sortOptions"
+            id="sortOptions"
+            onChange={(e) => {
+              if (data) {
+                handlerSort(e, data, setSortProduct)
+              }
+            }}
+          >
             <option value="1">По популярности</option>
             <option value="2">Сначала дешевые</option>
           </select>
@@ -61,9 +76,9 @@ const Catalog = () => {
         <div>
           <ButtonBase onClick={handlerGetCarts}>Отобразить даты</ButtonBase>
 
-          <ButtonBase onClick={handlerMutate}>Записать данные(useMutation)</ButtonBase>
+          <ButtonBase onClick={openModal}>Записать данные(useMutation)</ButtonBase>
 
-          {isPending && <Loader />}
+          {loader && <Loader />}
 
           <div>
             <ButtonBase onClick={refetchProducts}>Обновить товары(refetch)</ButtonBase>
@@ -72,22 +87,26 @@ const Catalog = () => {
 
           <div className={st.mb20}>
             {loader && <Loader />}
-            {!carts
-              ? null
-              : carts.map((cart: ICartsDate) => {
-                  return <div key={cart.id}>{cart.date}</div>
-                })}
+            {carts &&
+              carts.map((cart: ICartsDate) => {
+                return <div key={cart.id}>{cart.date}</div>
+              })}
           </div>
         </div>
 
-        {data?.length ? (
+        {sortProducts?.length ? (
           <div className={st.catalogList}>
-            {data?.map((product) => (
+            {sortProducts?.map((product) => (
               <CardProduct key={product?.id} product={product} />
             ))}
           </div>
         ) : (
           <Loader />
+        )}
+        {visibleModal && (
+          <ModalTemplate visibleModal={visibleModal} setVisibleModal={setVisibleModal}>
+            <ModalAddProduct />
+          </ModalTemplate>
         )}
       </div>
     </div>
