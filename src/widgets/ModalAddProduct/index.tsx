@@ -5,7 +5,7 @@ import st from '../ModalTemplate/ModalTemplate.module.scss'
 interface INewProduct {
   title?: string
   description?: string
-  price?: number
+  price?: string
 }
 
 export const ModalAddProduct = () => {
@@ -15,7 +15,11 @@ export const ModalAddProduct = () => {
     mutate(newPost)
   }
 
-  const { register, handleSubmit } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<INewProduct>()
 
   const sendForm = (data: INewProduct) => {
     handlerMutate(data)
@@ -30,18 +34,21 @@ export const ModalAddProduct = () => {
         className={st.modalTemplateInput}
         {...register('title', { required: 'Введите название' })}
       />
+      {errors.title && <span>{errors.title.message}</span>}
       <input
         type="text"
         placeholder="Описание"
         className={st.modalTemplateInput}
-        {...register('description', { required: 'Введите описаине' })}
+        {...register('description', { required: 'Введите описание' })}
       />
+      {errors.description && <span>{errors.description.message}</span>}
       <input
         type="text"
         placeholder="Цена"
         className={st.modalTemplateInput}
         {...register('price', { required: 'Введите цену' })}
       />
+      {errors.price && <span>{errors.price.message}</span>}
 
       <button type="submit">Добавить</button>
     </form>

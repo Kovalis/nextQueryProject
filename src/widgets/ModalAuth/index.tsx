@@ -1,24 +1,45 @@
-import st from './ModalAuth.module.scss'
+import { useForm } from 'react-hook-form'
+import st from '../ModalTemplate/ModalTemplate.module.scss'
 
-export const ModalAuth = ({ visibleModalAuth = false }) => {
+interface IAuth {
+  login?: string
+  password?: string
+}
+
+interface ILoginText {
+  setLoginText: (val: boolean) => void
+}
+
+export const ModalAuth = ({ setLoginText }: ILoginText) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IAuth>()
+
+  const sendForm = (data: IAuth) => {
+    console.log(data, 'data')
+    setLoginText(true)
+  }
+
   return (
-    <>
-      <div className={`${st.ModalAuthBg} ${visibleModalAuth ? st.ModalAuthBgActive : ''}`}></div>
-      <div className={`${st.ModalAuth} ${visibleModalAuth ? st.ModalAuthActive : ''}`}>
-        <form
-          action=""
-          className={st.modalTemplateForm}
-          onSubmit={(e) => {
-            e.preventDefault()
-            console.log('submit')
-          }}
-        >
-          <h3>Добавление товара</h3>
-          <input type="text" />
-          <input type="text" />
-          <button>Добавить</button>
-        </form>
-      </div>
-    </>
+    <form action="" onSubmit={handleSubmit(sendForm)} className={st.modalTemplateForm}>
+      <h3>Авторизация</h3>
+      <input
+        type="text"
+        className={st.modalTemplateInput}
+        placeholder="login"
+        {...register('login', { required: 'Введите название' })}
+      />
+      {errors.login && <span>{errors.login.message}</span>}
+      <input
+        type="text"
+        className={st.modalTemplateInput}
+        placeholder="password"
+        {...register('password', { required: 'Введите название' })}
+      />
+      {errors.password && <span>{errors.password.message}</span>}
+      <button>Войти</button>
+    </form>
   )
 }
