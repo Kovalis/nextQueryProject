@@ -42,11 +42,11 @@ const Catalog = () => {
 
   const handleClick = useCallback(() => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.products] }), [])
 
-  interface INewProduct {
-    title?: string
-    description?: string
-    price?: number
-  }
+  // interface INewProduct {
+  //   title?: string
+  //   description?: string
+  //   price?: number
+  // }
 
   const openModal = useCallback(() => {
     setVisibleModal(true)

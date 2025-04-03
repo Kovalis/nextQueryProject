@@ -3,7 +3,7 @@ import { IMenuList } from '@/widgets/Header/header.interface'
 export const menuList: IMenuList[] = [
   {
     name: 'Home',
-    path: `${process.env.HOME}`,
+    path: `/`,
   },
   {
     name: 'Catalog',

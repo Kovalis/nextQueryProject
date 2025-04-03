@@ -8,7 +8,7 @@ export interface IProduct {
   description?: string
   id?: number
   image?: string
-  price?: string
+  price?: number
   rating?: IRating
   title?: string
 }

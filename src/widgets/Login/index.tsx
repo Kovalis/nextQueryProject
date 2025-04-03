@@ -11,7 +11,7 @@ const Login = () => {
   const [visibleModal, setVisibleModal] = useState(false)
   const { data, refetch } = useLogin()
 
-  const toggleLogin = (e) => {
+  const toggleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault()
     refetch()
     setVisibleModal(true)

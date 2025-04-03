@@ -19,7 +19,9 @@ export const ModalAuth = ({ setLoginText }: ILoginText) => {
 
   const sendForm = (data: IAuth) => {
     console.log(data, 'data')
-    setLoginText(true)
+    if (data.login === 'admin' && data.password === '12345') {
+      setLoginText(true)
+    }
   }
 
   return (
