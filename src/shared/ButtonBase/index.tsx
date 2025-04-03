@@ -16,15 +16,17 @@ function ButtonBase({ children, onClick, type = 'button', link, href = '#' }: Pr
         {children}
       </Link>
     )
-  } else {
-    return onClick ? (
+  }
+
+  if (onClick) {
+    return (
       <button onClick={onClick} className={st.mainBtn} type={type}>
         {children}
       </button>
-    ) : (
-      <span className={st.mainBtn}>{children}</span>
     )
   }
+
+  return <span className={st.mainBtn}>{children}</span>
 }
 
 export default ButtonBase
