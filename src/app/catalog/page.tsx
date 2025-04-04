@@ -15,8 +15,6 @@ import { QUERY_KEYS } from '@/const/queryKeys'
 import { ModalAddProduct } from '@/widgets/ModalAddProduct'
 import { ModalTemplate } from '@/widgets/ModalTemplate'
 
-export const revalidate = 10
-
 const Catalog = () => {
   const [sortProducts, setSortProduct] = useState<IProduct[] | null>(null)
   const [carts, setCarts] = useState<ICartsDate[] | null>(null)
@@ -37,16 +35,6 @@ const Catalog = () => {
   }
 
   const handlerGetCarts = useCallback(() => getCarts(setLoader, setCarts), [])
-
-  const queryClient = useQueryClient()
-
-  const handleClick = useCallback(() => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.products] }), [])
-
-  // interface INewProduct {
-  //   title?: string
-  //   description?: string
-  //   price?: number
-  // }
 
   const openModal = useCallback(() => {
     setVisibleModal(true)
@@ -82,7 +70,6 @@ const Catalog = () => {
 
           <div>
             <ButtonBase onClick={refetchProducts}>Обновить товары(refetch)</ButtonBase>
-            <ButtonBase onClick={handleClick}>Обновить товары(invalidateQueries)</ButtonBase>
           </div>
 
           <div className={st.mb20}>
