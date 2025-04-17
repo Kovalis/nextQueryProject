@@ -15,22 +15,20 @@ import { ModalTemplate } from '@/widgets/ModalTemplate'
 import { useProducts } from './store'
 
 const Catalog = () => {
-  // const stateProducts = useProducts((state: any) => state.products)
+  const stateProducts = useProducts((state: any) => state.products)
   const stateSetProducts = useProducts((state: any) => state.setProducts)
 
-  const [products, setProducts] = useState<IProduct[] | null>(null)
   const [carts, setCarts] = useState<ICartsDate[] | null>(null)
   const [loader, setLoader] = useState(false)
   const [visibleModal, setVisibleModal] = useState(false)
 
   //обернуть в useCallback
-  const { data, isLoading, refetch } = useProductsQuery()
+  const { data, refetch } = useProductsQuery()
 
   useEffect(() => {
     if (data) {
       stateSetProducts(data)
       console.log('first loading')
-      setProducts(data)
     }
   }, [data])
 
@@ -56,7 +54,7 @@ const Catalog = () => {
             id="sortOptions"
             onChange={(e) => {
               if (data) {
-                handlerSort(e, data, setProducts)
+                handlerSort(e, data, stateSetProducts)
               }
             }}
           >
@@ -85,9 +83,9 @@ const Catalog = () => {
           </div>
         </div>
 
-        {products?.length ? (
+        {stateProducts?.length ? (
           <div className={st.catalogList}>
-            {products?.map((product) => (
+            {stateProducts?.map((product) => (
               <CardProduct key={product?.id} product={product} />
             ))}
           </div>

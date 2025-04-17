@@ -15,7 +15,6 @@ const Header = () => {
   }
 
   useEffect(() => {
-    console.log(stateTheme, 'stateTheme')
     if (stateTheme) {
       document.body.classList.add(st.themeDark)
     } else {
