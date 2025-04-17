@@ -4,8 +4,25 @@ import Link from 'next/link'
 import st from '@/app/page.module.scss'
 import { menuList } from './menuList'
 import Login from '../Login'
+import { useMainStore } from '@/app/mainStore'
+import { useEffect } from 'react'
 
 const Header = () => {
+  const stateTheme = useMainStore((state: any) => state.theme)
+  const stateToggleTheme = useMainStore((state: any) => state.setToggleTheme)
+  const changeTheme = () => {
+    stateToggleTheme()
+  }
+
+  useEffect(() => {
+    console.log(stateTheme, 'stateTheme')
+    if (stateTheme) {
+      document.body.classList.add(st.themeDark)
+    } else {
+      document.body.classList.remove(st.themeDark)
+    }
+  }, [stateTheme])
+
   return menuList ? (
     <header className={st.header}>
       <div className={st.container}>
@@ -17,7 +34,10 @@ const Header = () => {
               </li>
             ))}
           </ul>
-          <Login />
+          <div className={st.headerRight}>
+            <Login />
+            <button onClick={changeTheme}>{stateTheme ? 'Light' : 'Dark'}</button>
+          </div>
         </div>
       </div>
     </header>

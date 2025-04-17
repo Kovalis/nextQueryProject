@@ -13,6 +13,11 @@
   box-sizing: border-box;
 }
 
+.themeDark {
+  filter: invert(1);
+  color: #fff;
+}
+
 .pageInner {
   min-height: calc(100vh - 80px);
 }
@@ -160,6 +165,11 @@ a.secondary {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.headerRight {
+  display: flex;
+  gap: 10px;
 }
 
 .navbar {

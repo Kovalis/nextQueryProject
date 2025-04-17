@@ -12,9 +12,13 @@ import { ICartsDate } from '../types/cartsDate.interface'
 import { getCarts, handlerSort } from './scripts'
 import { ModalAddProduct } from '@/widgets/ModalAddProduct'
 import { ModalTemplate } from '@/widgets/ModalTemplate'
+import { useProducts } from './store'
 
 const Catalog = () => {
-  const [sortProducts, setSortProduct] = useState<IProduct[] | null>(null)
+  // const stateProducts = useProducts((state: any) => state.products)
+  const stateSetProducts = useProducts((state: any) => state.setProducts)
+
+  const [products, setProducts] = useState<IProduct[] | null>(null)
   const [carts, setCarts] = useState<ICartsDate[] | null>(null)
   const [loader, setLoader] = useState(false)
   const [visibleModal, setVisibleModal] = useState(false)
@@ -24,7 +28,9 @@ const Catalog = () => {
 
   useEffect(() => {
     if (data) {
-      setSortProduct(data)
+      stateSetProducts(data)
+      console.log('first loading')
+      setProducts(data)
     }
   }, [data])
 
@@ -50,7 +56,7 @@ const Catalog = () => {
             id="sortOptions"
             onChange={(e) => {
               if (data) {
-                handlerSort(e, data, setSortProduct)
+                handlerSort(e, data, setProducts)
               }
             }}
           >
@@ -79,9 +85,9 @@ const Catalog = () => {
           </div>
         </div>
 
-        {sortProducts?.length ? (
+        {products?.length ? (
           <div className={st.catalogList}>
-            {sortProducts?.map((product) => (
+            {products?.map((product) => (
               <CardProduct key={product?.id} product={product} />
             ))}
           </div>

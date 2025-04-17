@@ -5,6 +5,7 @@ import st from './page.module.scss'
 import Image from 'next/image'
 import Header from '../widgets/Header'
 import ReactQueryProvider from '@/app/providers/ReactQueryProvider'
+import { useMainStore } from './mainStore'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={inter.className}>
+      <body className={`${inter.className}`}>
         <ReactQueryProvider>
           <main className={st.main}>
             <div className={st.container}>
