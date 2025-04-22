@@ -8,7 +8,7 @@ import { useMainStore } from '@/app/mainStore'
 import { useEffect } from 'react'
 
 const Header = () => {
-  const stateTheme = useMainStore((state: any) => state.theme)
+  const stateTheme = useMainStore((state: any) => state.isDarkTheme)
   const stateToggleTheme = useMainStore((state: any) => state.setToggleTheme)
   const changeTheme = () => {
     stateToggleTheme()

@@ -1,11 +1,14 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 interface IThemeState {
-  theme: boolean
+  isDarkTheme: boolean
   setToggleTheme: () => void
 }
 
-export const useMainStore = create<IThemeState>((set) => ({
-  theme: false,
-  setToggleTheme: () => set((state) => ({ theme: !state.theme })),
-}))
+export const useMainStore = create<IThemeState>(
+  persist((set) => ({
+    isDarkTheme: false,
+    setToggleTheme: () => set((state) => ({ isDarkTheme: !state.isDarkTheme })),
+  }))
+)
